@@ -1,5 +1,5 @@
 # Analyzing Query Performance for Developers 
-## [Pluralsign Course By Erin Stellato](https://app.pluralsight.com/library/courses/sqlserver-query-performance-developers/table-of-contents)
+[Pluralsign Course By Erin Stellato](https://app.pluralsight.com/library/courses/sqlserver-query-performance-developers/table-of-contents)
 ---
 
 ## Finding Information About Queries
@@ -79,7 +79,15 @@ Every query has a plan generated
     - Performing a join (Logical) -> Nested Loop (Physical)
   - The physical operations are then turned into the query plan
 
-When looking at the query plan, each step or icon, represents a physical operation. Each physical operation is linked by arrows that represent the flow of the query plan. The Cost underneath each operation represents the estimated cost of each operation in relation to the cost of the entire query (a cost of 10% means that operation was roughly 10% of the entire query). This cost is **NOT** a representation of time, or CPU. It is a unit-less measure that is simply relative and comparitive to the other query operators, and costs are **ALWAYS** an estimate, there is never an actual, calculated value of cost.
+When looking at the query plan, each step or icon, represents a physical operation. 
+- Each physical operation is linked by arrows that represent the flow of the query plan. 
+- The Cost underneath each operation represents the estimated cost of each operation in relation to the cost of the entire query (a cost of 10% means that operation was roughly 10% of the entire query). 
+  - This cost is **NOT** a representation of time, or CPU. It is a unit-less measure that is simply relative and comparitive to the other query operators, and costs are **ALWAYS** an estimate, there is never an actual, calculated value of cost.
+- Each operation also has a cost in the properties of the operation. It has a CPU cost, and an IO cost.
+  - These values are also estimates, but calculated through various algorithms.
+  - The cost is something that SQL Server generates based off what it knows about your data (the statistics of your data)
+    - The more rows SQL Server thinks it's going to have to read through, the higher the CPU cost will be
+    - The more pages SQL Server thinks it's going to have to read through, the higher the IO cost will be. 
 
 When reading a query plan, there is a few important things to note:
 - When reading a plan, we read it from right to left. This is because this is the flow of the data. 
@@ -90,6 +98,9 @@ When reading a query plan, there is a few important things to note:
 - Left to Right = Flow of Control
 - Need to read the plan in both directions
 
+A plan can be viewed in both the UI, through SSMS, or it can be viewed in the XML format (through one of the DMOs, or right clicking the visual plan, and selecting view XML). This XML structure changes on each release, because they add new information, each iteration. But the structure is a strict schema, and you can view that XML Schema here: 
+- [http://schemas.microsoft.com/sqlserver/2004/07/showplan/](http://schemas.microsoft.com/sqlserver/2004/07/showplan/)
+  - From here, you'll just select the year of SQL Server you have/are working with. 
 
 
 
